@@ -7,7 +7,7 @@
     </button>
 </template>
 
-<script>
+<script lang="ts">
 import { defineComponent } from "vue";
 
 export default defineComponent({
@@ -18,13 +18,11 @@ export default defineComponent({
         icon: String,
         label: String
     },
-
     methods: {
         metodo() {
             this.$emit('metodo')
         }
     }
-
 })
 </script>
 
