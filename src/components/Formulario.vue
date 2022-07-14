@@ -10,25 +10,7 @@
             </div>
 
             <div class="column">
-                <div class="is-flex is-align-items-center is-justify-content-space-between">
-                    <Cronometro
-                        :segundos="this.segundos"
-                    />
-
-                    <button class="button" @click="iniciar">
-                        <span class="icon">
-                            <i class="fas fa-play"></i>
-                        </span>
-                        <span>play</span>
-                    </button>
-
-                    <button class="button" @click="finalizar">
-                        <span class="icon">
-                            <i class="fas fa-stop"></i>
-                        </span>
-                        <span>stop</span>
-                    </button>
-                </div>
+                <Temporizador />
             </div>
         </div>
     </div>
@@ -36,30 +18,13 @@
 
 <script>
     import { defineComponent } from "vue";
-    import Cronometro from "@/components/CronometroComponent";
+
+    import Temporizador from "@/components/TemporizadorComponent";
 
     export default defineComponent({
         name: 'FormularioComponent',
         components: {
-            Cronometro
-        },
-        data() {
-          return {
-              segundos: 0,
-              cronometro: 0
-          }
-        },
-        methods: {
-            iniciar() {
-                this.cronometro = setInterval(() => {
-                    this.segundos += 1;
-                }, 1000);
-            },
-
-            finalizar() {
-                clearInterval(this.cronometro);
-                this.segundos = 0;
-            }
+            Temporizador
         }
     });
 </script>
