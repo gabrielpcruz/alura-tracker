@@ -1,34 +1,39 @@
 <template>
     <div class="is-flex is-align-items-center is-justify-content-space-between">
-        <Cronometro
+        <CronometroComponent
             :segundos="this.segundos"
         />
 
-        <button class="button" @click="iniciar" :disabled="cronometroAtivo">
-            <span class="icon">
-                <i class="fas fa-play"></i>
-            </span>
-            <span>play</span>
-        </button>
+        <BotaoComponent
+            label="play"
+            icon="fa-play"
+            @metodo="iniciar"
+            :cronometro-ativo="cronometroAtivo"
+        />
 
-        <button class="button" @click="finalizar" :disabled="!cronometroAtivo">
-            <span class="icon">
-                <i class="fas fa-stop"></i>
-            </span>
-            <span>stop</span>
-        </button>
+        <BotaoComponent
+            label="stop"
+            icon="fa-stop"
+            @metodo="finalizar"
+            :cronometro-ativo="!cronometroAtivo"
+        />
     </div>
 </template>
 
-<script>
+<script lang="ts">
 import {defineComponent} from "vue";
 
-import Cronometro from "@/components/CronometroComponent";
+import CronometroComponent from "@/components/CronometroComponent.vue";
+import BotaoComponent from "@/components/BotaoComponent.vue"
 
 export default defineComponent({
     name: 'TemporizadorComponent',
+    emits: [
+            'aoTemporizadorFinalizado'
+    ],
     components: {
-        Cronometro
+        CronometroComponent,
+        BotaoComponent
     },
     data() {
         return {
@@ -49,9 +54,12 @@ export default defineComponent({
 
         finalizar() {
             clearInterval(this.cronometro);
-            this.segundos = 0;
 
             this.cronometroAtivo = false;
+
+            this.$emit('aoTemporizadorFinalizado', this.segundos);
+
+            this.segundos = 0;
         }
     }
 });
