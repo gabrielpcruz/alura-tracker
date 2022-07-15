@@ -1,10 +1,10 @@
 <template>
-    <main class="columns is-gapless is-multiline">
+    <main class="columns is-gapless is-multiline" :class="classeModoEscuro">
         <div class="column is-one-quarter">
-            <BarraLateral />
+            <BarraLateral @alterarTema="toggleDarkMode" />
         </div>
 
-        <div class="column is-three-quarter">
+        <div class="column is-three-quarter conteudo">
             <Formulario @aoSalvarTarefa="salvarTarefa" />
             <div class="lista">
                 <TarefaComponent
@@ -21,7 +21,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
+import {defineComponent} from 'vue';
 import BarraLateral from "@/components/BarraLateral.vue";
 import Formulario from "@/components/Formulario.vue";
 import TarefaComponent from "@/components/Tarefa.vue";
@@ -38,17 +38,23 @@ export default defineComponent({
     },
     data() {
         return {
-            tarefas: [] as ITarefa[]
+            tarefas: [] as ITarefa[],
+            modoEscuroAtivado: false,
+            classeModoEscuro: ''
         }
     },
     computed: {
         listaEstaVazia() :boolean {
             return this.tarefas.length === 0;
-        }
+        },
     },
     methods: {
         salvarTarefa(tarefa: ITarefa) {
             this.tarefas.unshift(tarefa);
+        },
+
+        toggleDarkMode(modoEscuroAtivo: boolean) {
+            this.classeModoEscuro = modoEscuroAtivo ? 'modo-escuro' : '';
         }
     }
 });
@@ -57,5 +63,19 @@ export default defineComponent({
 <style>
     .lista {
         padding: 1.25rem;
+    }
+
+    main {
+        --bg-primario: #fff;
+        --texto-primario: #000;
+    }
+
+    main.modo-escuro {
+        --bg-primario: #2b2d42;
+        --texto-primario: #ddd;
+    }
+
+    .conteudo {
+        background-color: var(--bg-primario);
     }
 </style>
